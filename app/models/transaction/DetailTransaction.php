@@ -4,8 +4,8 @@ namespace app\models\transaction;
 use Flight;
 use PDO;
 
-class Transaction {
-    protected static string $table = 'transaction';
+class DetailTransaction {
+    protected static string $table = 'detail_transaction';
 
     public static function getAll() {
         $db = Flight::db();
@@ -22,26 +22,24 @@ class Transaction {
 
     public static function create(array $data) {
         $db = Flight::db();
-        $sql = "INSERT INTO " . self::$table . " (date, montant, id_type_transaction, id_client) VALUES (COALESCE(?, CURRENT_TIMESTAMP), ?, ?, ?)";
+        $sql = "INSERT INTO " . self::$table . " (id_transaction, date, montant) VALUES (?, COALESCE(?, CURRENT_TIMESTAMP), ?)";
         $stmt = $db->prepare($sql);
         $stmt->execute([
+            $data['id_transaction'],
             $data['date'] ?? null,
-            $data['montant'],
-            $data['id_type_transaction'],
-            $data['id_client']
+            $data['montant']
         ]);
         return $db->lastInsertId();
     }
 
     public static function update(int $id, array $data) {
         $db = Flight::db();
-        $sql = "UPDATE " . self::$table . " SET date = COALESCE(?, date), montant = ?, id_type_transaction = ?, id_client = ? WHERE id = ?";
+        $sql = "UPDATE " . self::$table . " SET id_transaction = ?, date = COALESCE(?, date), montant = ? WHERE id = ?";
         $stmt = $db->prepare($sql);
         return $stmt->execute([
+            $data['id_transaction'],
             $data['date'] ?? null,
             $data['montant'],
-            $data['id_type_transaction'],
-            $data['id_client'],
             $id
         ]);
     }
