@@ -66,6 +66,5 @@ CREATE TABLE detail_transaction (
 
 CREATE TABLE compte (
     id INTEGER PRIMARY KEY,
-    montant DOUBLE PRECISION,
-    type SMALLINT
+    montant DOUBLE PRECISION
 );
