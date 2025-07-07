@@ -1,15 +1,20 @@
+-- Active: 1751871771198@@127.0.0.1@3306@db_s2_etu003263
+CREATE DATABASE IF NOT EXISTS db_s2_ETU003263;
+
+
+
 CREATE TABLE type_client (
     id INTEGER PRIMARY KEY,
     libelle VARCHAR(255) NOT NULL, -- entreprise, particulier...
     description TEXT,
-    date DATE DEFAULT CURRENT_DATE
+    date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE categorie (
     id INTEGER PRIMARY KEY,
     libelle VARCHAR(255) NOT NULL, -- investisseur, debiteur
     description TEXT,
-    date DATE DEFAULT CURRENT_DATE
+    date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE client (
@@ -20,7 +25,7 @@ CREATE TABLE client (
     email VARCHAR(255) NOT NULL,
     telephone VARCHAR(255) NOT NULL,
     adresse VARCHAR(255) NOT NULL,
-    date DATE DEFAULT CURRENT_DATE,
+    date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     id_categorie INTEGER NOT NULL,
     FOREIGN KEY (id_type_client) REFERENCES type_client (id),
     FOREIGN KEY (id_categorie) REFERENCES categorie (id)
@@ -32,13 +37,13 @@ CREATE TABLE type_transaction (
     taux_interet DOUBLE PRECISION,
     id_categorie INTEGER NOT NULL,
     description TEXT,
-    date DATE DEFAULT CURRENT_DATE,
+    date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (id_categorie) REFERENCES categorie (id)
 );
 
 CREATE TABLE transaction (
     id INTEGER PRIMARY KEY,
-    date DATE DEFAULT CURRENT_DATE,
+    date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     montant DOUBLE PRECISION,
     id_type_transaction INTEGER NOT NULL,
     id_client INTEGER NOT NULL,
@@ -50,7 +55,7 @@ CREATE TABLE transaction (
 CREATE TABLE status_transaction (
     id INTEGER PRIMARY KEY,
     id_transaction INTEGER NOT NULL,
-    date DATE DEFAULT CURRENT_DATE,
+    date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     status SMALLINT,
     FOREIGN KEY (id_transaction) REFERENCES transaction (id)
 );
@@ -59,7 +64,7 @@ CREATE TABLE status_transaction (
 CREATE TABLE detail_transaction (
     id INTEGER PRIMARY KEY,
     id_transaction INTEGER NOT NULL,
-    date DATE DEFAULT CURRENT_DATE,
+    date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     montant DOUBLE PRECISION,
     FOREIGN KEY (id_transaction) REFERENCES transaction (id)
 );
@@ -68,3 +73,6 @@ CREATE TABLE compte (
     id INTEGER PRIMARY KEY,
     montant DOUBLE PRECISION
 );
+
+
+
