@@ -3,7 +3,6 @@
 //importation de controller
 use app\controllers\Controller;
 use app\controllers\EtudiantController;
-use app\controllers\HelloController;
 
 //importation lié flight
 use flight\Engine;
@@ -23,6 +22,8 @@ use flight\net\Router;
 $Controller = new Controller();
 $router->get('/', [ $Controller, 'acceuil' ]);
 
+
+// exemple api
 $etudiant = new EtudiantController();
 Flight::route('GET /etudiants', [$etudiant, 'getAll']);
 Flight::route('GET /etudiants/@id', [$etudiant, 'getOne']);
