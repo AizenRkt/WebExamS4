@@ -11,9 +11,6 @@ class Controller {
     }
 
     public function acceuil() {
-        $status = new Status(); 
-        $data = $status->getStatus();
-
-        Flight::render('acceuil', ['status' => $data]);
+        Flight::render('index');
     }
 }
