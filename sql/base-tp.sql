@@ -74,5 +74,29 @@ CREATE TABLE compte (
     montant DOUBLE PRECISION
 );
 
+-- vue transaction x status x detail
+CREATE OR REPLACE VIEW vue_transaction_detaillee AS
+SELECT 
+    t.id AS transaction_id,
+    t.date AS date_transaction,
+    t.montant AS montant_initial,
+    
+    c.id AS client_id,
+    c.nom AS client_nom,
+    c.prenom AS client_prenom,
 
+    tt.id AS type_id,
+    tt.libelle AS type_transaction,
 
+    st.status,
+    st.date AS date_validation,
+
+    dt.id AS detail_id,
+    dt.date AS date_detail,
+    dt.montant AS montant_detail
+
+FROM transaction t
+JOIN client c ON t.id_client = c.id
+JOIN type_transaction tt ON t.id_type_transaction = tt.id
+LEFT JOIN status_transaction st ON st.id_transaction = t.id
+LEFT JOIN detail_transaction dt ON dt.id_transaction = t.id;
