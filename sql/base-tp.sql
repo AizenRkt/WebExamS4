@@ -2,6 +2,36 @@
 CREATE DATABASE IF NOT EXISTS db_s2_ETU003263;
 
 
+CREATE TABLE type_administrateur (
+    id INTEGER PRIMARY KEY,
+    libelle VARCHAR(255) NOT NULL,
+    description TEXT,
+    date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+CREATE TABLE administrateur (
+    id INTEGER PRIMARY KEY,
+    nom VARCHAR(255) NOT NULL,
+    prenom VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    mot_de_passe VARCHAR(255) NOT NULL,
+    date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    id_type_administrateur INTEGER NOT NULL,
+    FOREIGN KEY (id_type_administrateur) REFERENCES type_administrateur (id)
+);
+
+
+CREATE TABLE administrateur (
+    id INTEGER PRIMARY KEY,
+    nom VARCHAR(255) NOT NULL,
+    prenom VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    mot_de_passe VARCHAR(255) NOT NULL,
+    date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
 
 CREATE TABLE type_client (
     id INTEGER PRIMARY KEY,
@@ -12,7 +42,7 @@ CREATE TABLE type_client (
 
 CREATE TABLE categorie (
     id INTEGER PRIMARY KEY,
-    libelle VARCHAR(255) NOT NULL, -- investisseur, debiteur
+    libelle VARCHAR(255) NOT NULL, -- investisseur, debiteur,adminisatrateur
     description TEXT,
     date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -25,6 +55,7 @@ CREATE TABLE client (
     email VARCHAR(255) NOT NULL,
     telephone VARCHAR(255) NOT NULL,
     adresse VARCHAR(255) NOT NULL,
+    mot_de_passe VARCHAR(255) NOT NULL,
     date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     id_categorie INTEGER NOT NULL,
     FOREIGN KEY (id_type_client) REFERENCES type_client (id),
@@ -73,6 +104,31 @@ CREATE TABLE compte (
     id INTEGER PRIMARY KEY,
     montant DOUBLE PRECISION
 );
+
+
+CREATE TABLE regle_remboursement (
+    id INTEGER PRIMARY KEY,
+    seuil_montant DOUBLE PRECISION NOT NULL,  -- Ex : montant minimum à partir duquel s’applique la règle
+    id_type_remboursement INTEGER NOT NULL,
+    duree_mois INTEGER NOT NULL,  -- Durée par défaut
+    description TEXT,
+    FOREIGN KEY (id_type_remboursement) REFERENCES type_remboursement (id)
+);
+
+
+CREATE TABLE regle_retour_investissement (
+    id INTEGER PRIMARY KEY,
+    id_type_transaction INTEGER NOT NULL,
+    id_type_retour_investissement INTEGER NOT NULL,
+    description TEXT,
+    FOREIGN KEY (id_type_transaction) REFERENCES type_transaction (id),
+    FOREIGN KEY (id_type_retour_investissement) REFERENCES type_retour_investissement (id)
+);
+
+
+
+
+
 
 -- vue transaction x status x detail
 CREATE OR REPLACE VIEW vue_transaction_detaillee AS
